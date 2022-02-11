@@ -123,6 +123,7 @@ public class ScreenMediaRecorder {
 
 
         // Set up video
+        boolean mAVCLevel42 = mContext.getResources().getBoolean(com.android.systemui.R.bool.config_screenrecord_codec_profile_avc42);
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getRealMetrics(metrics);
@@ -136,7 +137,8 @@ public class ScreenMediaRecorder {
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setVideoEncodingProfileLevel(
                 MediaCodecInfo.CodecProfileLevel.AVCProfileHigh,
-                MediaCodecInfo.CodecProfileLevel.AVCLevel3);
+                mAVCLevel42 ? MediaCodecInfo.CodecProfileLevel.AVCLevel42
+                : MediaCodecInfo.CodecProfileLevel.AVCLevel3);
         mMediaRecorder.setVideoSize(width, height);
         mMediaRecorder.setVideoFrameRate(refreshRate);
         mMediaRecorder.setVideoEncodingBitRate(vidBitRate);
